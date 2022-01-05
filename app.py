@@ -38,9 +38,8 @@ def function_api():
     
     return jsonify({
                     str(int(client.index.values)) : dict(shap_map),
-                    'prediction': float(pred),
-                    'proba_0': float(proba[0][0]),
-                    'proba_1': float(proba[0][1])
+                    'prediction': int(pred),
+                    'proba': list(proba[0]),
                     })
 
 @app.route('/id_list', methods=['GET'])
