@@ -34,13 +34,23 @@ def function_api():
     pred = model.predict(client)
     proba = model.predict_proba(client)
     
-    #data_client=dict(zip(client.columns, np.array(client)[0]))
-    
     return jsonify({
                     str(int(client.index.values)) : dict(shap_map),
                     'prediction': int(pred),
                     'proba': list(proba[0]),
                     })
+
+@app.route('/gfi', methods=['GET'])
+def function_ft_import():
+    importances = model.feature_importances_
+    importances_int = []
+    for v in importances:
+        importances_int.append(int(v))
+
+    importances_map = zip(data_set.columns,importances_int)
+    
+    return jsonify({'global_feature_importance':dict(importances_map)})
+
 
 @app.route('/id_list', methods=['GET'])
 def function_list():
